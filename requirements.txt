@@ -3,11 +3,12 @@ asn1crypto==0.24.0
 colorama==0.4.1
 Cython==0.29.6
 globus-sdk==1.7.1
-ibllib==1.11.0
-libusb1==1.7
-numpy==1.19.3
 packaging==20.8
 pyOpenSSL==19.0.0
 PySocks==1.6.8
 python-osc==1.7.0
 sounddevice==0.3.13
+ibllib>=2.0.7
+opencv-python==3.4.5.20
+numpy<1.21,>=1.17
+pandas==0.25.3

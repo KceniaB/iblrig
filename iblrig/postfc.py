@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# @File: iblrig/postfc.py
+# @Author: Niccolo' Bonacchi (@nbonacchi)
+# @Date: Thursday, August 26th 2021, 5:02:19 pm
 import iblrig.bonsai as bonsai
 import iblrig.path_helper as ph
 from iblrig.bpod_helper import bpod_lights
@@ -8,11 +13,21 @@ import os
 
 def bonsai_close_all() -> None:
     """Close all possible bonsai workflows that have a /x switch
-    Closing a workflow that is not running returns no error """
+    Closing a workflow that is not running returns no error"""
     # Close stimulus, camera, and mic workflows
-    bonsai.osc_client('stim').send_message("/x", 1)
-    bonsai.osc_client('camera').send_message("/x", 1)  # Camera workflow has mic recording also
-    bonsai.osc_client('mic').send_message("/x", 1)
+    stim_client = bonsai.osc_client("stim")
+    camera_client = bonsai.osc_client("camera")
+    mic_client = bonsai.osc_client("mic")
+    if stim_client is not None:
+        stim_client.send_message("/x", 1)
+        print("Closed: stim workflow")
+    if camera_client is not None:
+        camera_client.send_message("/x", 1)
+        print("Closed: camera workflow")
+    if mic_client is not None:
+        mic_client.send_message("/x", 1)
+        print("Closed: mic workflow")
+    return
 
 
 def cleanup_pybpod_data() -> None:

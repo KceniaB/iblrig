@@ -19,9 +19,6 @@ log = logging.getLogger("iblrig")
 
 if platform == "linux":
 
-    def osc_client(*args, **kwargs):
-        return
-
     def send_current_trial_info(*args, **kwargs):
         return
 
@@ -88,9 +85,7 @@ else:
                 editor = noeditor
 
             if "bpod_ttl_test" in sph.PYBPOD_PROTOCOL:
-                subprocess.Popen(
-                    [bns, wkfl, editor, noboot, evt, itr, com, sync_x, sync_y]
-                )
+                subprocess.Popen([bns, wkfl, editor, noboot, evt, itr, com, sync_x, sync_y])
             else:
                 subprocess.Popen(
                     [
@@ -112,7 +107,7 @@ else:
             os.chdir(here)
         else:
             sph.USE_VISUAL_STIMULUS = False
-        time.sleep(2)
+        time.sleep(6)
         return
 
     def start_mic_recording(sph):
@@ -177,9 +172,7 @@ else:
     ):
         here = os.getcwd()
         bns = ph.get_bonsai_path()
-        stim_folder = str(
-            Path(ph.get_iblrig_folder()) / "visual_stim" / "passiveChoiceWorld"
-        )
+        stim_folder = str(Path(ph.get_iblrig_folder()) / "visual_stim" / "passiveChoiceWorld")
         wkfl = os.path.join(stim_folder, "passiveChoiceWorld_passive.bonsai")
         os.chdir(stim_folder)
         # Flags
@@ -190,8 +183,8 @@ else:
         RFM_FileName = "-p:Stim.ReceptiveFieldMappingStim.FileNameRFMapStim=" + str(
             Path(save2folder) / fname
         )
-        RFM_MappingTime = f"-p:Stim.ReceptiveFieldMappingStim.MappingTime=" + map_time
-        RFM_StimRate = f"-p:Stim.ReceptiveFieldMappingStim.Rate=" + str(rate)
+        RFM_MappingTime = "-p:Stim.ReceptiveFieldMappingStim.MappingTime=" + map_time
+        RFM_StimRate = "-p:Stim.ReceptiveFieldMappingStim.Rate=" + str(rate)
 
         cmd = [
             bns,
@@ -275,22 +268,10 @@ else:
         osc_client.send_message("/s", sigma)
         osc_client.send_message("/r", reverse)
 
-    def osc_client(workflow):
-        ip = "127.0.0.1"
-        if "stim" in workflow:
-            port = 7110
-        elif "camera" in workflow:
-            port = 7111
-        elif "mic" in workflow:
-            port = 7112
-        return udp_client.SimpleUDPClient(ip, port)
-
     def start_frame2ttl_test(data_file, lengths_file, harp=False):
         here = os.getcwd()
         bns = ph.get_bonsai_path()
-        stim_folder = str(
-            Path(ph.get_iblrig_folder()) / "visual_stim" / "f2ttl_calibration"
-        )
+        stim_folder = str(Path(ph.get_iblrig_folder()) / "visual_stim" / "f2ttl_calibration")
         wkfl = os.path.join(stim_folder, "screen_60Hz.bonsai")
         # Flags
         noedit = "--no-editor"  # implies start and no-debug?
@@ -316,9 +297,7 @@ else:
                 ]
             )
         else:
-            s = subprocess.Popen(
-                [bns, wkfl, noboot, noedit, data_file_name, lengths_file_name]
-            )
+            s = subprocess.Popen([bns, wkfl, noboot, noedit, data_file_name, lengths_file_name])
         os.chdir(here)
         return s
 
@@ -328,10 +307,7 @@ else:
         os.chdir(str(iblrig_folder_path / "visual_stim" / "f2ttl_calibration"))
         bns = ph.get_bonsai_path()
         wrkfl = str(
-            iblrig_folder_path
-            / "visual_stim"
-            / "f2ttl_calibration"
-            / "screen_color.bonsai"
+            iblrig_folder_path / "visual_stim" / "f2ttl_calibration" / "screen_color.bonsai"
         )
         noedit = "--no-editor"  # implies start
         # nodebug = '--start-no-debug'
@@ -341,6 +317,36 @@ else:
         subprocess.Popen([bns, wrkfl, editor, noboot])
         time.sleep(3)
         os.chdir(here)
+
+
+def osc_client(workflow):
+    ip = "127.0.0.1"
+    if "stim" in workflow:
+        port = 7110
+    elif "camera" in workflow:
+        port = 7111
+    elif "mic" in workflow:
+        port = 7112
+    return udp_client.SimpleUDPClient(ip, port)
+
+
+def close_all_workflows():
+    """Close all possible bonsai workflows that have a /x switch
+    Closing a workflow that is not running returns no error"""
+    # Close stimulus, camera, and mic workflows
+    stim_client = osc_client("stim")
+    camera_client = osc_client("camera")
+    mic_client = osc_client("mic")
+    if stim_client is not None:
+        stim_client.send_message("/x", 1)
+        print("Closed: stim workflow")
+    if camera_client is not None:
+        camera_client.send_message("/x", 1)
+        print("Closed: camera workflow")
+    if mic_client is not None:
+        mic_client.send_message("/x", 1)
+        print("Closed: mic workflow")
+    return
 
 
 def stop_wrkfl(name):

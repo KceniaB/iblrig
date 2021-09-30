@@ -3,10 +3,6 @@
 # @Author: Niccolò Bonacchi
 # @Date: Thursday, June 6th 2019, 11:42:40 am
 import logging
-import os
-import subprocess
-import time
-from pathlib import Path
 
 from pythonosc import udp_client
 
@@ -27,28 +23,22 @@ class SessionParamHandler(object):
         # IMPORT task_settings, user_settings, and SessionPathCreator params
         # =====================================================================
         ts = {
-            i: task_settings.__dict__[i]
-            for i in [x for x in dir(task_settings) if "__" not in x]
+            i: task_settings.__dict__[i] for i in [x for x in dir(task_settings) if "__" not in x]
         }
         self.__dict__.update(ts)
         us = {
-            i: user_settings.__dict__[i]
-            for i in [x for x in dir(user_settings) if "__" not in x]
+            i: user_settings.__dict__[i] for i in [x for x in dir(user_settings) if "__" not in x]
         }
         self.__dict__.update(us)
         self = iotasks.deserialize_pybpod_user_settings(self)
-        spc = SessionPathCreator(
-            self.PYBPOD_SUBJECTS[0], protocol=self.PYBPOD_PROTOCOL, make=True
-        )
+        spc = SessionPathCreator(self.PYBPOD_SUBJECTS[0], protocol=self.PYBPOD_PROTOCOL, make=True)
         self.__dict__.update(spc.__dict__)
         # =====================================================================
         # OSC CLIENT
         # =====================================================================
         self.OSC_CLIENT_PORT = 7110
         self.OSC_CLIENT_IP = "127.0.0.1"
-        self.OSC_CLIENT = udp_client.SimpleUDPClient(
-            self.OSC_CLIENT_IP, self.OSC_CLIENT_PORT
-        )
+        self.OSC_CLIENT = udp_client.SimpleUDPClient(self.OSC_CLIENT_IP, self.OSC_CLIENT_PORT)
         # =====================================================================
         # SAVE SETTINGS FILE AND TASK CODE
         # =====================================================================

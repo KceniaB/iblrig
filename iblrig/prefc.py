@@ -21,17 +21,14 @@ Check Alyx connection
 end with user input
 """
 import datetime
-import glob
 import logging
-import platform
-import pprint
 import struct
 from pathlib import Path
 
 import serial
 import serial.tools.list_ports
 from dateutil.relativedelta import relativedelta
-from oneibl.one import ONE
+from one.api import ONE
 from pybpod_rotaryencoder_module.module_api import RotaryEncoderModule
 from pybpod_soundcard_module.module_api import SoundCardModule
 from pybpodapi.protocol import Bpod
@@ -88,10 +85,7 @@ def calibration_dates_ok() -> bool:
     if not cal_dates_exist:
         log.warning(f"Not all calibration dates are present: {subdict}")
     else:
-        subdict = {
-            k: datetime.datetime.strptime(v, "%Y-%m-%d").date()
-            for k, v in subdict.items()
-        }
+        subdict = {k: datetime.datetime.strptime(v, "%Y-%m-%d").date() for k, v in subdict.items()}
         out = dict.fromkeys(subdict)
         for k in subdict:
             out[k] = subdict[k] + thresh[k] < today
@@ -114,7 +108,7 @@ def local_server_ok() -> bool:
     pars = _grep_param_dict()
     out = Path(pars["DATA_FOLDER_REMOTE"]).exists()
     if not out:
-        log.warning(f"Can't connect to local_server.")
+        log.warning("Can't connect to local_server.")
     return out
 
 
@@ -122,7 +116,7 @@ def rig_data_folder_ok() -> bool:
     pars = _grep_param_dict()
     out = Path(pars["DATA_FOLDER_LOCAL"]).exists()
     if not out:
-        log.warning(f"Can't connect to local_server.")
+        log.warning("Can't connect to local_server.")
     return out
 
 
@@ -239,9 +233,7 @@ def xonar_ok() -> bool:
         import sounddevice as sd
 
         devices = sd.query_devices()
-        xonar = [
-            (i, d) for i, d in enumerate(devices) if "XONAR SOUND CARD(64)" in d["name"]
-        ]
+        xonar = [(i, d) for i, d in enumerate(devices) if "XONAR SOUND CARD(64)" in d["name"]]
         if len(xonar) == 1:
             out = True
     except BaseException as e:
@@ -293,6 +285,7 @@ def ultramic_ok() -> bool:
         out = True
     return out
 
+
 # Check Task IO Run fast habituation task with fast delays?
 
 # Ask user info
@@ -305,9 +298,9 @@ def _list_pc_devices(grep=""):
     # will return list of devices that match grep apttern in field 'Name'
     import win32com.client
 
-    objSWbemServices = win32com.client.Dispatch(
-        "WbemScripting.SWbemLocator"
-    ).ConnectServer(".", "root\cimv2")
+    objSWbemServices = win32com.client.Dispatch("WbemScripting.SWbemLocator").ConnectServer(
+        ".", r"root\cimv2"
+    )
 
     devices = [i for i in objSWbemServices.ExecQuery("SELECT * FROM Win32_PnPEntity")]
     fields = (

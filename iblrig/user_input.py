@@ -8,12 +8,11 @@ import sys
 import ibllib.graphic as graph
 import pyforms
 from AnyQt.QtWidgets import QApplication
-from oneibl.one import ONE
+from one.api import ONE
 from pyforms.basewidget import BaseWidget
-from pyforms.controls import (ControlButton, ControlCheckBox, ControlLabel,
-                              ControlText)
+from pyforms.controls import ControlButton, ControlCheckBox, ControlLabel, ControlText
 
-import iblrig.logging_
+import iblrig.logging_  # noqa
 from iblrig.misc import patch_settings_file
 
 log = logging.getLogger("iblrig")
@@ -212,13 +211,16 @@ class EphysSessionForm(BaseWidget):
             label=f"Current weight for {self.session_dict['mouse_name']}:"
         )
         self._session_is_mock = ControlText(
-            label="Is this a MOCK session?", default=self.session_dict["session_is_mock"]
+            label="Is this a MOCK session?",
+            default=self.session_dict["session_is_mock"],
         )
         self._session_index = ControlText(
-            label="Session number:", default=str(int(self.session_dict["session_index"]) + 1)
+            label="Session number:",
+            default=str(int(self.session_dict["session_index"]) + 1),
         )
         self._session_delay = ControlText(
-            label="Delay session initiation by (min):", default=self.session_dict["session_delay"]
+            label="Delay session initiation by (min):",
+            default=self.session_dict["session_delay"],
         )
 
         self._button = ControlButton("Submit")
@@ -402,7 +404,11 @@ def ask_confirm_session_idx(session_idx):
         session_idx = sess_num - 1
     return session_idx
 
-# XXX: THIS ONE CALL HAS TO CHANGE in favor of local param file
+
+# XXX: THIS ONE CALL HAS TO CHANGE in favor of local param folder:
+# Find configured projects
+# Find mice in projects
+# if subj_name in more than one configured project, ask which one to use
 def ask_project(subject_name, one=None):
     if subject_name == "_iblrig_test_mouse":
         log.info(f"Test mouse detected Project for {subject_name}: _iblrig_test_project")
@@ -432,7 +438,7 @@ def ask_subject_project(subject: str, settings_file_path: str = None) -> float:
     import datetime
     import json
 
-    from oneibl.one import ONE
+    from one.api import ONE
 
     one = ONE()
     all_subjects = list(one.alyx.rest("subjects", "list"))

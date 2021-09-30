@@ -1,11 +1,9 @@
 import time
 
-import matplotlib.pyplot as plt
 import nidaqmx
 import numpy as np
 from nidaqmx.constants import AcquisitionType, Edge, TerminalConfiguration, VoltageUnits
 from pathlib import Path
-import numpy as np
 import os
 
 
@@ -14,7 +12,7 @@ import os
 # ax1 = fig.add_subplot(211)
 # ax2 = fig.add_subplot(212)
 
-fpath = r'C:\Users\User\Desktop\scratch_bonsai-harp\NIdata.bin'
+fpath = r"C:\Users\User\Desktop\scratch_bonsai-harp\NIdata.bin"
 data = np.fromfile(fpath, dtype=np.float64)
 
 nsamples = 1024
@@ -27,7 +25,8 @@ sample_frequency = 1000
 #         "Dev1/port0/line0",
 #     )
 #     task.timing.cfg_samp_clk_timing(
-#         sample_frequency, active_edge=Edge.RISING, sample_mode=AcquisitionType.CONTINUOUS, samps_per_chan=nsamples
+#         sample_frequency, active_edge=Edge.RISING,
+#         sample_mode=AcquisitionType.CONTINUOUS, samps_per_chan=nsamples
 #     )
 #     # task.start()
 #     # task.stop()
@@ -45,11 +44,11 @@ with nidaqmx.Task() as task:
         sample_frequency,
         active_edge=Edge.RISING,
         sample_mode=AcquisitionType.CONTINUOUS,
-        samps_per_chan=1000
+        samps_per_chan=1000,
     )
 
     fpath = Path(r"C:\iblrig_data\test.npy")
-    with fpath.open('ab') as f:
+    with fpath.open("ab") as f:
         # task.start()
         # task.stop()
         tstart = time.time()
@@ -75,7 +74,7 @@ with nidaqmx.Task() as task:
             print(f"t2-t1 = {t2 - t1}s")
 
 
-with fpath.open('rb') as f:
+with fpath.open("rb") as f:
     fsz = os.fstat(f.fileno()).st_size
     out = np.load(f)
     while f.tell() < fsz:
