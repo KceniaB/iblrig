@@ -134,7 +134,7 @@ df1 = pd.DataFrame(
         "ndrops",
         "mean_measured_weight",
         "std_measured_weight",
-    ]
+    ], dtype=object
 )
 ntrials = sph.NTRIALS
 # in milliseconds, 10 to 100ms opening time
@@ -256,7 +256,7 @@ f.savefig(sph.CALIBRATION_CURVE_FILE_PATH[:-4] + "_range.pdf")
 
 # SAVE THE RANGE TOGETHER WITH THE CALIBRATION CURVE - SEPARATE FILE
 df2 = pd.DataFrame.from_dict(
-    {"min_open_time": min_open_time, "max_open_time": max_open_time, "index": [0]}
+    {"min_open_time": min_open_time, "max_open_time": max_open_time, "index": [0]}, dtype=object
 )
 df2.to_csv(sph.CALIBRATION_RANGE_FILE_PATH)
 # SAVE TO PARAMS FILE
