@@ -1799,6 +1799,8 @@
               <Property Name="FileNamePositions" />
               <Property Name="FileNameTrialInfo" />
               <Property Name="FileNameEvents" />
+              <Property Name="FileNameStimPositionScreen" />
+              <Property Name="FileNameSyncSquareUpdate" />
             </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>SaveData</Name>
