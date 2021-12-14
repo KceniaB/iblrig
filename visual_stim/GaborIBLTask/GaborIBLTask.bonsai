@@ -67,16 +67,35 @@
                         <Expression xsi:type="PublishSubject" TypeArguments="p1:Matrix4">
                           <Name>DrawStim</Name>
                         </Expression>
+                        <Expression xsi:type="PublishSubject" TypeArguments="p1:Matrix4">
+                          <Name>DrawSyncSquare</Name>
+                        </Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="TranslationZ" />
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="FloatProperty">
-                            <Value>-8</Value>
+                            <Value>-7</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="BehaviorSubject">
                           <Name>TranslationZ</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="FloatProperty">
+                            <Value>15</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="BehaviorSubject">
+                          <Name>ScreenHeight</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="FloatProperty">
+                            <Value>0</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="BehaviorSubject">
+                          <Name>UpdateSyncSquare</Name>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="FloatProperty">
@@ -104,7 +123,7 @@
                         </Expression>
                         <Expression xsi:type="Divide">
                           <Operand xsi:type="FloatProperty">
-                            <Value>8</Value>
+                            <Value>7</Value>
                           </Operand>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -121,40 +140,21 @@
                         <Expression xsi:type="BehaviorSubject">
                           <Name>VisualSpan</Name>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="FloatProperty">
-                            <Value>15</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="BehaviorSubject">
-                          <Name>ScreenHeight</Name>
-                        </Expression>
-                        <Expression xsi:type="PublishSubject" TypeArguments="p1:Matrix4">
-                          <Name>DrawSyncSquare</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="FloatProperty">
-                            <Value>0</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="BehaviorSubject">
-                          <Name>UpdateSyncSquare</Name>
-                        </Expression>
                       </Nodes>
                       <Edges>
-                        <Edge From="1" To="2" Label="Source1" />
                         <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="6" To="10" Label="Source1" />
                         <Edge From="7" To="8" Label="Source1" />
-                        <Edge From="8" To="9" Label="Source1" />
-                        <Edge From="9" To="10" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
                         <Edge From="10" To="11" Label="Source1" />
-                        <Edge From="11" To="12" Label="Source1" />
+                        <Edge From="11" To="15" Label="Source1" />
                         <Edge From="12" To="13" Label="Source1" />
                         <Edge From="13" To="14" Label="Source1" />
+                        <Edge From="14" To="15" Label="Source2" />
                         <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="16" To="17" Label="Source1" />
+                        <Edge From="17" To="18" Label="Source1" />
                         <Edge From="18" To="19" Label="Source1" />
                       </Edges>
                     </Workflow>
@@ -471,7 +471,7 @@
                     <Combinator xsi:type="cv:CreatePoint3d">
                       <cv:X>0</cv:X>
                       <cv:Y>0</cv:Y>
-                      <cv:Z>-8</cv:Z>
+                      <cv:Z>-7</cv:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -505,7 +505,7 @@
                     <Translation>
                       <X>0</X>
                       <Y>0</Y>
-                      <Z>-8</Z>
+                      <Z>-7</Z>
                     </Translation>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.NormalizedView.bonsai" />
@@ -539,7 +539,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>1.23</Value>
+                      <Value>1.33</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -547,7 +547,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>-1</Value>
+                      <Value>-1.03</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -562,13 +562,13 @@
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawQuad.bonsai">
                     <ExtentX>0.2</ExtentX>
                     <ExtentY>0.2</ExtentY>
-                    <LocationX>1.23</LocationX>
-                    <LocationY>-1</LocationY>
+                    <LocationX>1.33</LocationX>
+                    <LocationY>-1.03</LocationY>
                     <Layer>1</Layer>
                     <Angle>0</Angle>
-                    <ColorR>1</ColorR>
-                    <ColorG>1</ColorG>
-                    <ColorB>1</ColorB>
+                    <ColorR>0</ColorR>
+                    <ColorG>0</ColorG>
+                    <ColorB>0</ColorB>
                     <ColorA>1</ColorA>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -605,7 +605,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="dsp:Rescale">
                       <dsp:Min>0</dsp:Min>
-                      <dsp:Max>102.68038349181981</dsp:Max>
+                      <dsp:Max>110.01596088640814</dsp:Max>
                       <dsp:RangeMin>0</dsp:RangeMin>
                       <dsp:RangeMax>1</dsp:RangeMax>
                       <dsp:RescaleType>Linear</dsp:RescaleType>
@@ -700,21 +700,21 @@
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawGratings.bonsai">
-                    <LocationX>0</LocationX>
+                    <LocationX>35</LocationX>
                     <LocationY>0</LocationY>
                     <Layer>1</Layer>
                     <Angle>0</Angle>
                     <SpatialFrequency>0.1</SpatialFrequency>
                     <TemporalFrequency>0</TemporalFrequency>
-                    <Phase>0</Phase>
+                    <Phase>2811.00757</Phase>
                     <SquareWave>false</SquareWave>
-                    <Contrast>0</Contrast>
+                    <Contrast>1</Contrast>
                     <DutyCycle xsi:nil="true" />
-                    <Radius>0.477208972</Radius>
-                    <Aperture>0.477208972</Aperture>
-                    <Opacity>0</Opacity>
-                    <ExtentX>102.680382</ExtentX>
-                    <ExtentY>102.680382</ExtentY>
+                    <Radius>0.445389926</Radius>
+                    <Aperture>0.445389926</Aperture>
+                    <Opacity>1</Opacity>
+                    <ExtentX>110.015961</ExtentX>
+                    <ExtentY>110.015961</ExtentY>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -931,7 +931,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="dsp:Pow">
-                      <dsp:Power>0</dsp:Power>
+                      <dsp:Power>2</dsp:Power>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -1795,6 +1795,12 @@
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Repeat" />
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="FileNamePositions" />
               <Property Name="FileNameTrialInfo" />
@@ -1813,7 +1819,7 @@
                     <Property Name="FileName" DisplayName="FileNamePositions" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\iblrig_data\Subjects\_iblrig_test_mouse\2019-07-01\008\raw_behavior_data\_iblrig_encoderPositions.raw.ssv</io:FileName>
+                    <io:FileName>c:\iblrig_data\Subjects\_iblrig_test_mouse\2021-12-14\002\raw_behavior_data\_iblrig_encoderPositions.raw.ssv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -1856,7 +1862,7 @@
                     <Property Name="FileName" DisplayName="FileNameTrialInfo" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\iblrig_data\Subjects\_iblrig_test_mouse\2019-07-01\008\raw_behavior_data\_iblrig_encoderTrialInfo.raw.ssv</io:FileName>
+                    <io:FileName>c:\iblrig_data\Subjects\_iblrig_test_mouse\2021-12-14\002\raw_behavior_data\_iblrig_encoderTrialInfo.raw.ssv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -1869,7 +1875,7 @@
                     <Property Name="FileName" DisplayName="FileNameEvents" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\iblrig_data\Subjects\_iblrig_test_mouse\2019-07-01\008\raw_behavior_data\_iblrig_encoderEvents.raw.ssv</io:FileName>
+                    <io:FileName>c:\iblrig_data\Subjects\_iblrig_test_mouse\2021-12-14\002\raw_behavior_data\_iblrig_encoderEvents.raw.ssv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -1891,7 +1897,7 @@
                     <Property Name="FileName" DisplayName="FileNameStimPositionScreen" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\iblrig_data\Subjects\_iblrig_test_mouse\2019-07-01\008\raw_behavior_data\_iblrig_stimPositionScreen.raw.csv</io:FileName>
+                    <io:FileName>c:\iblrig_data\Subjects\_iblrig_test_mouse\2021-12-14\002\raw_behavior_data\_iblrig_stimPositionScreen.raw.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -1907,7 +1913,7 @@
                     <Property Name="FileName" DisplayName="FileNameSyncSquareUpdate" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\iblrig_data\Subjects\_iblrig_test_mouse\2019-07-01\008\raw_behavior_data\_iblrig_stimSquareUpdate.csv</io:FileName>
+                    <io:FileName>c:\iblrig_data\Subjects\_iblrig_test_mouse\2021-12-14\002\raw_behavior_data\_iblrig_syncSquareUpdate.raw.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -1964,15 +1970,20 @@
             <Edge From="7" To="13" Label="Source1" />
             <Edge From="7" To="16" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="18" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
+            <Edge From="12" To="18" Label="Source2" />
             <Edge From="13" To="14" Label="Source1" />
             <Edge From="14" To="15" Label="Source1" />
+            <Edge From="15" To="18" Label="Source3" />
             <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="18" Label="Source4" />
             <Edge From="18" To="19" Label="Source1" />
-            <Edge From="20" To="22" Label="Source1" />
-            <Edge From="21" To="22" Label="Source2" />
-            <Edge From="22" To="23" Label="Source1" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="22" To="24" Label="Source1" />
+            <Edge From="23" To="24" Label="Source2" />
+            <Edge From="24" To="25" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
