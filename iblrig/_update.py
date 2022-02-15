@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # @Author: Niccolò Bonacchi
-# @Date:   2018-06-08 11:04:05
+# @Creation_Date:   2018-06-08 11:04:05
+# @Editor: Michele Fabbri
+# @Edit_Date: 2022-01-28
 import os
 import shutil
 import subprocess
@@ -10,8 +11,9 @@ from pathlib import Path
 
 from setup_pybpod import main as setup_pybpod
 
-import iblrig.git as git
 import iblrig.envs as envs
+import iblrig.git as git
+
 
 IBLRIG_ROOT_PATH = Path.cwd()
 git.fetch()
@@ -31,7 +33,7 @@ UPGRADE_BONSAI = True if list(Path().glob("upgrade_bonsai")) else False
 def check_reinstall_required():
     REINSTALL = True if list(Path(IBLRIG_ROOT_PATH).glob("reinstall")) else False
     if REINSTALL:
-        print("\nPlease deactivate iblenv and reinstall from the base environment")
+        print("\nPlease deactivate iblrig and reinstall from the base environment")
         print("\n-------------------------------------")
         print("\nconda deactivate && python install.py")
         print("\n-------------------------------------\n")
@@ -43,8 +45,8 @@ def iblrig_params_path():
     return str(Path(os.getcwd()).parent / "iblrig_params")
 
 
-def update_env():
-    print("\nUpdating iblenv")
+def update_rig_env():
+    print("\nUpdating iblrig")
     os.system("pip install -r requirements.txt -U")
     os.system("pip install -e .")
 
@@ -62,6 +64,7 @@ def update_pip():
     os.system("python -m pip install --upgrade pip")
 
 
+# TODO: remove once safely implemented natively
 def update_ibllib():
     pip = envs.get_env_pip("ibllib")
     os.system("pip install ibllib -U")
@@ -184,8 +187,7 @@ def _update(branch=None, version=None):
         check_reinstall_required()  # Will raise error if reinstall file exists
 
         update_pip()
-        update_env()
-        update_ibllib()
+        update_rig_env()
         setup_pybpod(iblrig_params_path())
         upgrade_bonsai(version, branch)
         update_bonsai_config()
@@ -216,6 +218,7 @@ def main(args):
     elif args.v and args.v not in ALL_VERSIONS:
         print("Version", args.v, "not found")
 
+    # TODO: remove once functionality implemented natively
     if args.ibllib:
         update_ibllib()
 
@@ -225,8 +228,8 @@ def main(args):
     if args.setup_pybpod:
         setup_pybpod(iblrig_params_path())
 
-    if args.iblenv:
-        update_env()
+    if args.iblrig:
+        update_rig_env()
 
     if args.pip:
         update_pip()
