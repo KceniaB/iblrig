@@ -14,6 +14,7 @@ from pathlib import Path
 
 from pybpodgui_api.models.project import Project
 
+import iblrig
 import iblrig.logging_  # noqa
 import iblrig.path_helper as ph
 from iblrig.graphic import strinput
@@ -45,6 +46,7 @@ EMPTY_BOARD_PARAMS = {
     "BPOD_TTL_TEST_DATE": None,  # str
     "DATA_FOLDER_LOCAL": None,  # str
     "DATA_FOLDER_REMOTE": None,  # str
+    "DISPLAY_IDX": None,  # int
 }
 
 global AUTO_UPDATABLE_PARAMS
@@ -53,16 +55,20 @@ AUTO_UPDATABLE_PARAMS = dict.fromkeys(
         "NAME",
         "IBLRIG_VERSION",
         "COM_BPOD",
-        "SCREEN_FREQ_TARGET",
         "DATA_FOLDER_LOCAL",
         "DATA_FOLDER_REMOTE",
     ]
 )
 
+DEFAULT_PARAMS = {
+    "SCREEN_FREQ_TARGET": 60,
+    "DISPLAY_IDX": 1,
+}
+
 
 def ensure_all_keys_present(loaded_params):
     """
-    Ensures allo keys are present and empty knowable values are filled
+    Ensures all keys are present and that empty knowable values are filled
     """
     anything_new = False
     for k in EMPTY_BOARD_PARAMS:
@@ -70,8 +76,17 @@ def ensure_all_keys_present(loaded_params):
             if loaded_params[k] is None and k in AUTO_UPDATABLE_PARAMS:
                 loaded_params[k] = update_param_key_values(k)
                 anything_new = True
-        elif k not in loaded_params:
+            elif loaded_params[k] is None and k in DEFAULT_PARAMS:
+                loaded_params[k] = DEFAULT_PARAMS[k]
+                anything_new = True
+        elif k not in loaded_params and k in DEFAULT_PARAMS:
+            loaded_params[k] = DEFAULT_PARAMS[k]
+            anything_new = True
+        elif k not in loaded_params and k in AUTO_UPDATABLE_PARAMS:
             loaded_params.update({k: update_param_key_values(k)})
+            anything_new = True
+        else:
+            loaded_params.update({k: EMPTY_BOARD_PARAMS[k]})
             anything_new = True
     if anything_new:
         write_params_file(data=loaded_params, force=True)
@@ -80,8 +95,7 @@ def ensure_all_keys_present(loaded_params):
 
 def create_new_params_dict():
     new_params = EMPTY_BOARD_PARAMS
-    for k in new_params:
-        new_params[k] = update_param_key_values(k)
+    new_params = ensure_all_keys_present(new_params)
 
     return new_params
 
@@ -93,8 +107,6 @@ def update_param_key_values(param_key):
         return get_iblrig_version()
     elif param_key == "COM_BPOD":
         return get_pybpod_board_comport()
-    elif param_key == "SCREEN_FREQ_TARGET":
-        return 60
     elif param_key == "DATA_FOLDER_LOCAL":
         return ph.get_iblrig_data_folder(subjects=False)
     elif param_key == "DATA_FOLDER_REMOTE":
@@ -104,12 +116,7 @@ def update_param_key_values(param_key):
 
 
 def get_iblrig_version():
-    ph.get_iblrig_folder()
-    # Find version number from `__init__.py` without executing it.
-    file_path = Path(ph.get_iblrig_folder()) / "setup.py"
-    with open(file_path, "r") as f:
-        version = re.search(r"version=\"([^\"]+)\"", f.read()).group(1)
-    return version
+    return iblrig.__version__
 
 
 def get_pybpod_board_name():
