@@ -15,8 +15,19 @@ from iblrig.misc import patch_settings_file
 
 IBLRIG_DATA = Path().cwd().parent.parent.parent.parent / "iblrig_data" / "Subjects"  # noqa
 
+from iblrig.path_helper import load_extrasettings
 
 def poop() -> None:
+    # maybe this is a good time to stop the recording..
+    extrasettings = load_extrasettings()
+    if 'labcams_addresses' in extrasettings.keys():
+        for dval in extrasettings['labcams_addresses']:
+            address = (dval['address'],dval['port'])
+            import socket
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.sendto('softtrigger=0'.encode(), 0, address)
+            sock.sendto('acquire=0'.encode(), 0, address)
+
     poop_flags = list(IBLRIG_DATA.rglob("poop_count.flag"))
     poop_flags = sorted(
         poop_flags, key=lambda x: (parser.parse(x.parent.parent.name), int(x.parent.name)),
@@ -31,6 +42,7 @@ def poop() -> None:
     patch = {"POOP_COUNT": poop_count}
     patch_settings_file(str(flag.parent), patch)
     flag.unlink()
+    
 
 
 if __name__ == "__main__":
