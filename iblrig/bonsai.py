@@ -344,7 +344,7 @@ def launch_cameras() -> bool:
     """
     board_name = params.load_params_file()['NAME']
     launch_cam = False
-    if ("behavior" in board_name) or ("photometry" in board_name):
+    if ("beh" in board_name) or ("photometry" in board_name):
         launch_cam = True
         log.info("Launching camera on " + board_name)
     return launch_cam
