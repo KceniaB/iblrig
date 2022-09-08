@@ -49,7 +49,8 @@ def main(local_folder: str, remote_folder: str, force: bool = False) -> None:
             if not settings:
                 log.info("A _iblrig_taskSettings.raw*.json was not found.")
             dst.joinpath("raw_session.flag").touch()
-            if "ephys" in settings["PYBPOD_BOARD"]:  # Any training task on an ephys rig
+            if not (("beh" in settings["PYBPOD_BOARD"]) or ("photometry" in settings["PYBPOD_BOARD"])):
+                # Remove flag if it is not a beh or photometry location
                 log.info(f"Removing raw_session.flag file; ephys behavior rig detected")
                 dst.joinpath("raw_session.flag").unlink()
             log.info(f"Copied to {remote_folder}: Session {src_flag_file.parent}")
