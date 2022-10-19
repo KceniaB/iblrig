@@ -1,3 +1,4 @@
+import os
 import shutil
 import unittest
 from pathlib import Path
@@ -19,6 +20,8 @@ class TestIbllibCalls(unittest.TestCase):
         calls.call_one_sync_params(one_test=self.one_test)
 
     def test_call_one_get_project_data(self):
+        print(f"Current dir: {os.getcwd()}")
+        print(f"Home dir: {Path().home()}")
         calls.call_one_get_project_data(self.project_name, one_test=self.one_test)
         self.assertTrue(Path().home().joinpath("TempAlyxProjectData").exists())
         self.assertTrue(Path().home().joinpath("TempAlyxProjectData", f"{self.project_name}_subjects.json").exists())
