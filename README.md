@@ -130,9 +130,6 @@ the difference in directory structure that this system uses
 
 #### Install Python v3.8 and set up venv for iblrig in Ubuntu 22.04
 
-Instructions are for the assumption that this is for development and that the desired directory to work out of is 
-`~/Documents/repos/iblrig`
-
 Installing from deadsnakes repo:
 ```bash
 sudo apt install build-essential --yes
@@ -142,6 +139,10 @@ sudo apt install python3.8 python3.8-dev python3.8-venv python3.8-tk --yes
 python3.8 -m ensurepip --default-pip --user
 python3.8 -m pip install --upgrade pip --user
 ```
+
+Though not recommended, another option for setting up python v3.8 on a system that does not include it natively is to build from 
+[source](https://www.python.org/downloads/source/). If attempting this procedure, be sure to read up on "make altinstall". 
+Further instructions for this setup are outside the scope of this document.
 
 Testing python3.8 venv functionality:
 ```bash

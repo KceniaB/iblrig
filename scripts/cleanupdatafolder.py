@@ -79,7 +79,7 @@ def load_session_settings(path_list):
 
 
 if __name__ == "__main__":
-    data_path = Path(ph.get_iblrig_data_folder())
+    data_path = ph.get_iblrig_local_data_path()
     check_delete_empty_files(data_path, "taskSettings")
     check_delete_empty_folders(data_path)
     sessions_with_settings = find_sessions(data_path, rglob_pattern="*taskSettings*")

@@ -29,7 +29,7 @@ log = logging.getLogger("iblrig")
 PARAMS = params.load_params_file()
 subj = "_iblrig_test_mouse"
 date = parser.parse(user_settings.PYBPOD_SESSION).date().isoformat()
-datefolder = Path(ph.get_iblrig_data_folder()) / subj / date
+datefolder = ph.get_iblrig_local_data_path() / subj / date
 number = ph.get_session_number(datefolder)
 folder = datefolder.joinpath(number)
 folder.mkdir(parents=True, exist_ok=True)

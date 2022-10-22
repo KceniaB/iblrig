@@ -2,6 +2,7 @@ asn1crypto
 colorlog
 cython
 ibllib
+iblutil
 numpy
 ONE-api
 packaging
@@ -11,7 +12,6 @@ PySocks
 python-dateutil
 python-osc
 pywin32; sys_platform == "win32"
-PySocks
 PyYAML
 scipy
 sounddevice

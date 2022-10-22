@@ -2,68 +2,53 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import iblrig.path_helper as ph
+from iblrig import path_helper
+# import iblrig.path_helper as ph
 
 
 class TestPathHelper(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_get_network_drives(self):
-        nd = ph.get_network_drives()
-        print(nd)
-        # outs = ["C:\\", "Y:\\", "~/Projects/IBL/github/iblserver"]
-        # self.assertTrue(all([x in outs for x in nd]))
+    def test_get_iblserver_data_path(self):
+        df = path_helper.get_iblserver_data_path(subjects=True)
+        self.assertTrue(isinstance(df, Path))
+        self.assertTrue("Subjects" in str(df))
+        df = path_helper.get_iblserver_data_path(subjects=False)
+        self.assertTrue(isinstance(df, Path))
+        self.assertTrue("Subjects" not in str(df))
 
-    def test_get_iblserver_data_folder(self):
-        df = ph.get_iblserver_data_folder(subjects=True)
-        self.assertTrue(isinstance(df, str))
-        self.assertTrue("Subjects" in df)
-        df = ph.get_iblserver_data_folder(subjects=False)
-        self.assertTrue(isinstance(df, str))
-        self.assertTrue("Subjects" not in df)
+    def test_get_iblrig_path(self):
+        f = path_helper.get_iblrig_path()
+        self.assertTrue(isinstance(f, Path))
+        self.assertTrue("iblrig" in str(f))
 
-    def test_get_iblrig_folder(self):
-        f = ph.get_iblrig_folder()
-        self.assertTrue(isinstance(f, str))
-        self.assertTrue("iblrig" in f)
+    def test_get_iblrig_params_path(self):
+        f = path_helper.get_iblrig_params_path()
+        self.assertTrue(isinstance(f, Path))
+        self.assertTrue("iblrig_params" in str(f))
 
-    def test_get_iblrig_params_folder(self):
-        f = ph.get_iblrig_params_folder()
-        self.assertTrue(isinstance(f, str))
-        self.assertTrue("iblrig_params" in f)
-
-    def test_get_iblrig_data_folder(self):
-        df = ph.get_iblrig_data_folder(subjects=False)
-        self.assertTrue(isinstance(df, str))
-        self.assertTrue("iblrig_data" in df)
-        self.assertTrue("Subjects" not in df)
-        dfs = ph.get_iblrig_data_folder(subjects=True)
-        self.assertTrue(isinstance(dfs, str))
-        self.assertTrue("iblrig_data" in dfs)
-        self.assertTrue("Subjects" in dfs)
-
-    def test_get_commit_hash(self):
-        import subprocess
-
-        out = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
-        # Run it
-        ch = ph.get_commit_hash(ph.get_iblrig_folder())
-        self.assertTrue(out == ch)
+    def test_get_iblrig_local_data_path(self):
+        df = path_helper.get_iblrig_local_data_path(subjects=False)
+        self.assertTrue(isinstance(df, Path))
+        self.assertTrue("iblrig_data" in str(df))
+        self.assertTrue("Subjects" not in str(df))
+        dfs = path_helper.get_iblrig_local_data_path(subjects=True)
+        self.assertTrue(isinstance(dfs, Path))
+        self.assertTrue("iblrig_data" in str(dfs))
+        self.assertTrue("Subjects" in str(dfs))
 
     def test_get_previous_session_folders(self):
         test_subject_name = "_iblrig_test_mouse"
         self.local_dir = tempfile.TemporaryDirectory()
         self.remote_dir = tempfile.TemporaryDirectory()
 
-        def create_local_session():
-            local_session_folder = (
-                Path(self.local_dir.name) / "Subjects" / test_subject_name / "1900-01-01" / "001"
-            )
-            local_session_folder.mkdir(parents=True)
-            return str(local_session_folder)
+        def create_local_session() -> str:
+            local_session_path = Path(self.local_dir.name) / "Subjects" / test_subject_name / "1970-01-01" / "001"
+            local_session_path.mkdir(parents=True)
+            return str(local_session_path)
 
-        def create_remote_subject():
+        def create_remote_subject() -> str:
             remote_subject_dir = Path(self.remote_dir.name) / "Subjects"
             remote_subject_dir.mkdir(parents=True)
             return str(remote_subject_dir)
@@ -81,7 +66,7 @@ class TestPathHelper(unittest.TestCase):
         test_remote_subject_folder = create_remote_subject()
 
         # Call the function
-        test_previous_session_folders = ph.get_previous_session_folders(
+        test_previous_session_folders = path_helper.get_previous_session_folders(
             test_subject_name,
             test_local_session_folder,
             remote_subject_folder=test_remote_subject_folder,
@@ -91,7 +76,7 @@ class TestPathHelper(unittest.TestCase):
         # Test for an existing subject, local does exist and remote does NOT exist
         self.remote_dir.cleanup()
         # Call the function
-        test_previous_session_folders = ph.get_previous_session_folders(
+        test_previous_session_folders = path_helper.get_previous_session_folders(
             test_subject_name,
             test_local_session_folder,
             remote_subject_folder=test_remote_subject_folder,
@@ -102,7 +87,7 @@ class TestPathHelper(unittest.TestCase):
         self.local_dir.cleanup()
         test_remote_subject_folder = create_remote_subject()
         # Call the function
-        test_previous_session_folders = ph.get_previous_session_folders(
+        test_previous_session_folders = path_helper.get_previous_session_folders(
             test_subject_name,
             test_local_session_folder,
             remote_subject_folder=test_remote_subject_folder,
@@ -113,7 +98,7 @@ class TestPathHelper(unittest.TestCase):
         self.local_dir.cleanup()
         self.remote_dir.cleanup()
         # Call the function
-        test_previous_session_folders = ph.get_previous_session_folders(
+        test_previous_session_folders = path_helper.get_previous_session_folders(
             test_subject_name,
             test_local_session_folder,
             remote_subject_folder=test_remote_subject_folder,
@@ -123,7 +108,7 @@ class TestPathHelper(unittest.TestCase):
         # Test for a new subject
         test_new_subject_name = "_new_iblrig_test_mouse"
         test_new_session_folder = (Path(self.local_dir.name) / "Subjects" / test_new_subject_name / "1970-01-01" / "001")
-        test_previous_session_folders = ph.get_previous_session_folders(test_new_subject_name, str(test_new_session_folder))
+        test_previous_session_folders = path_helper.get_previous_session_folders(test_new_subject_name, str(test_new_session_folder))
         self.assertTrue(isinstance(test_previous_session_folders, list))
         self.assertTrue(not test_previous_session_folders)  # returned list should be empty
 
