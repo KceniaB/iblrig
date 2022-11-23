@@ -220,6 +220,7 @@ def config_task(iblproject_path, task_name: str):  # XXX: THIS!
         "_iblrig_tasks_trainingChoiceWorld",
         "_iblrig_tasks_biasedChoiceWorld",
         "_iblrig_tasks_ephysChoiceWorld",
+        "_iblrig_tasks_biasedChoiceWorld_ephysProbabilities",
     ]
     if task.name in btasks:
         task = create_task_bonsai_stop_command(task, port=7110)  # visual stimulus
@@ -257,6 +258,9 @@ def config_task(iblproject_path, task_name: str):  # XXX: THIS!
         task = create_task_bonsai_stop_command(task, port=7112)  # record_mic
         task = create_task_bpod_lights_command(task, 0, when="PRE")
         task = create_task_bpod_lights_command(task, 1, when="POST")
+    if task.name == "_iblrig_tasks_biasedChoiceWorld_ephysProbabilities":
+        task = create_task_create_command(task, poop=True)
+        task = create_task_bonsai_stop_command(task, port=7112)  # record_mic
 
     p.save(iblproject_path)
     print("    Task configured")
@@ -277,7 +281,8 @@ def create_ibl_tasks(iblproject_path):  # XXX: THIS!
         "_iblrig_tasks_ephysChoiceWorld",
         "_iblrig_tasks_ephys_certification",
         "_iblrig_tasks_passiveChoiceWorld",
-        "_iblrig_tasks_passiveChoiceWorldIndependent"
+        "_iblrig_tasks_passiveChoiceWorldIndependent",
+        "_iblrig_tasks_biasedChoiceWorld_ephysProbabilities",
     ]
     for task_name in task_names:
         create_task(iblproject_path, task_name=task_name)
@@ -374,7 +379,15 @@ def create_experiment_setups(iblproject_path, exp_name: str):  # XXX:THIS!
             test_subj,
             task="_iblrig_tasks_passiveChoiceWorldIndependent",
         )
-
+        biasedChoiceWorld_ephysProbabilities = create_setup(  # noqa
+            exp,
+            "biasedChoiceWorld_ephysProbabilities",
+            p.boards[0].name,
+            None
+        )
+        habituationChoiceWorld = create_setup(  # noqa
+            exp, "habituationChoiceWorld", p.boards[0].name, None
+        )
     p.save(iblproject_path)
 
 
