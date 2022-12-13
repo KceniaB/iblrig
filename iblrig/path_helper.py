@@ -33,6 +33,11 @@ with open(iblrig_params_file_path, "r") as f:
     print(f.read())
 
 
+def get_pybpod_working_path() -> Path:
+    """ Get the pybpod working path, expecting something like "C:\iblrig\pybpod" """
+    return get_iblrig_path() / "pybpod_fixtures"
+
+
 def get_remote_server_path() -> Path or None:
     """ Get the iblrig_remote_server_path configured in the iblrig_params.yml file, expecting something like
     "\\lab_server_ip_or_dns" """

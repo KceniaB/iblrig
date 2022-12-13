@@ -14,3 +14,19 @@ PySocks
 PyYAML
 scipy
 sounddevice
+
+# pybpod requirements
+aenum
+AnyQt
+confapp
+markdown2
+matplotlib
+opencv-python; sys_platform == "win32"
+opencv-python==4.3.0.36; sys_platform != "win32"
+PyOpenGL
+PyQt5
+PyQtWebEngine
+pyserial
+pyusb
+QScintilla
+visvis
