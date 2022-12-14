@@ -5,8 +5,8 @@ import json
 import logging
 import shutil
 
-from pybpodgui_api.models.project import Project
-
+# from pybpodgui_api.models.project import Project
+from iblpybpod.pybpodgui_api.models.project import Project
 import iblrig
 from iblrig import path_helper
 from iblrig.graphic import strinput

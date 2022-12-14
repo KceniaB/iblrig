@@ -32,7 +32,7 @@ PYFORMS_GL_ENABLED = True
 PYFORMS_VISVIS_ENABLED = False
 
 GENERIC_EDITOR_TITLE = "IBL"
-GENERIC_EDITOR_PLUGINS_PATH = "plugins"
+GENERIC_EDITOR_PLUGINS_PATH = "/home/michele/Documents/repos/iblrig/iblpybpod"
 GENERIC_EDITOR_PLUGINS_LIST = [
     "pybpodgui_plugin",
     "pybpodgui_plugin_timeline",

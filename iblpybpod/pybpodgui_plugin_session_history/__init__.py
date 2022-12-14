@@ -1,0 +1,14 @@
+__version__ = "1.4.2"
+
+from confapp import conf
+
+conf += "iblpybpod.pybpodgui_plugin_session_history.settings"
+conf += "iblpybpod.pybpodgui_plugin_session_history.resources"
+
+from iblpybpod import loggingbootstrap
+
+
+# setup different loggers but output to single file
+loggingbootstrap.create_double_logger("pybpodgui_plugin_session_history", conf.APP_LOG_HANDLER_CONSOLE_LEVEL,
+									  conf.APP_LOG_FILENAME,
+									  conf.APP_LOG_HANDLER_FILE_LEVEL)

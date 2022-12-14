@@ -1,19 +1,12 @@
-#!/usr/bin/env python
-# @Author: Niccolò Bonacchi
-# @Creation_Date: Friday, May 17th 2019, 9:21:19 am
-# @Editor: Michele Fabbri
-# @Edit_Date: 2022-02-01
-"""
-Various interaction with user and session forms
-"""
+""" Various interaction with user and session forms """
 import ast
 import logging
 import sys
 
-import pyforms
+from iblpybpod import pyforms
 from AnyQt.QtWidgets import QApplication
-from pyforms.basewidget import BaseWidget
-from pyforms.controls import ControlButton, ControlCheckBox, ControlLabel, ControlText
+from iblpybpod.pyforms.basewidget import BaseWidget
+from iblpybpod.pyforms.controls import ControlButton, ControlCheckBox, ControlLabel, ControlText
 
 import iblrig.graphic as graph
 from iblrig.misc import patch_settings_file

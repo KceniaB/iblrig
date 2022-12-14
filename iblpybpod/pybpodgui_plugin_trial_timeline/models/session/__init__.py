@@ -1,0 +1,1 @@
+from iblpybpod.pybpodgui_plugin_trial_timeline.models.session.session_treenode import SessionTreeNode as Session
