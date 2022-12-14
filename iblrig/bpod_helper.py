@@ -9,7 +9,7 @@ import struct
 import numpy as np
 import serial
 from pybpodapi.protocol import Bpod, StateMachine
-from pybpod_rotaryencoder_module.module import RotaryEncoder
+# from pybpod_rotaryencoder_module.module import RotaryEncoder
 
 import iblrig.params as params
 
@@ -32,15 +32,15 @@ class BpodMessageCreator(object):
         if mod:
             return mod[0]
 
-    def rotary_encoder_reset(self):
-        re_reset = self.default_message_idx + 1
-        self.bpod.load_serial_message(
-            self.rotary_encoder,
-            re_reset,
-            [RotaryEncoder.COM_SETZEROPOS, RotaryEncoder.COM_ENABLE_ALLTHRESHOLDS],  # ord('Z')
-        )  # ord('E')
-        self.default_message_idx += 1
-        return re_reset
+    # def rotary_encoder_reset(self):
+    #     re_reset = self.default_message_idx + 1
+    #     self.bpod.load_serial_message(
+    #         self.rotary_encoder,
+    #         re_reset,
+    #         [RotaryEncoder.COM_SETZEROPOS, RotaryEncoder.COM_ENABLE_ALLTHRESHOLDS],  # ord('Z')
+    #     )  # ord('E')
+    #     self.default_message_idx += 1
+    #     return re_reset
 
     def bonsai_hide_stim(self):
         # Stop the stim
