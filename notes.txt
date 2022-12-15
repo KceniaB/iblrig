@@ -1,0 +1,24 @@
+# testable task notes
+# task->sph->paths
+# - would like to decide on consistent naming:
+#   - no more 'folder' in attribute names
+#   - when 'path' is in name, refers to file path, is a path object
+#   - when 'dir' is in name, refers to directory, is a path object
+#   - when 'file_name' is in name, refers to just the filename, string
+# - _BOARD, _PROTOCOL, SUBJECT_NAME, VISUAL_STIMULUS_TYPE, IBLRIG_COMMIT_HASH, IBLRIG_VERSION_TAG seem misplaced
+
+# task->sph->pybpod
+# - may want to rename class to pybpod, maybe not
+# - PYBPOD_SESSION_PATH could be moved to paths
+# - SETTING_PRIORITY can go away
+
+# task->sph->settings
+# - NAME(board_name) could be moved and renamed to pybpod
+
+# task->sph->task
+# - may want to rename to parameters, otherwise looks ok
+
+# DONE:
+# - DATA_FOLDER_LOCAL, DATA_FOLDER_REMOTE and SETTING_PRIORITY removed
+# - git wrappers and tag warnings removed
+# - yaml files updated and task class renamed
